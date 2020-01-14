@@ -22,5 +22,9 @@ Route::get('/usuarios/{id}', 'UserController@show')
 
 Route::get('/usuarios/nuevo', 'UserController@create');
 
+Route::get('/usuarios/{id}/edit', function($id) {
+    return "Editando al usuario {$id}";
+})->where('id', '[0-9+]');
+
 //Podemos emitir el método si sólo tiene uno llamado (__invoke)
 Route::get('/saludo/{name}/{nickname?}', 'WelcomeUserController');
