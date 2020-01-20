@@ -26,5 +26,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('laravel'),
             'profession_id' => $profession
         ]);
+
     }
 }

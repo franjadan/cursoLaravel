@@ -26,5 +26,7 @@ class ProfessionSeeder extends Seeder
         DB::table('professions')->insert([
             'title' => 'Desarrollador web'
         ]);
+
+        DB::delete('DELETE FROM professions WHERE title = ?', ['Desarrollador web']);
     }
 }
