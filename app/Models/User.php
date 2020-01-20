@@ -31,6 +31,11 @@ class User extends Authenticatable
         'is_admin' => 'boolean'
     ];
 
+    public function profession() //profession_id
+    {
+        return $this->belongsTo(Profession::class);
+    }
+
     public static function findByEmail($email)
     {
         return static::where('email', '=', $email)->first();
