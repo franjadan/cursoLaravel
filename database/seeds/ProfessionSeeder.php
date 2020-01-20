@@ -33,5 +33,7 @@ class ProfessionSeeder extends Seeder
         Profession::create([
             'title' => 'Desarrollador web'
         ]);
+
+        factory(Profession::class, 17)->create();
     }
 }
