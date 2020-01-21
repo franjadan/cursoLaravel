@@ -3,41 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class UserController extends Controller
 {
     public function index() 
     {
-
-        if(request()->has('empty')) {
-            $users = [];
-        } else {
-            $users = [
-                'Joel',
-                'Ellie',
-                'Tess',
-                'Tommy',
-                'Bill'
-            ];
-        }
-        
-
-        /*
-        return view('users', [
-            'users' => $users,
-            'title' => 'Listado de usuarios'
-        ]);
-        */
-
-        /*
-        return view('users')
-            ->with('users', $users)
-            ->with('title', 'Listado de usuarios');
-        */
+        $users = User::all();
 
         $title = 'Listado de usuarios';
 
-        return view('users.list', compact('users', 'title'));
+        return view('users.index', compact('users', 'title'));
     }
 
     public function show($id) 
