@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Models\User;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 class UsersModuleTest extends TestCase
@@ -66,7 +66,7 @@ class UsersModuleTest extends TestCase
     {
         $this->get('usuarios/nuevo')
         ->assertStatus(200)
-        ->assertSee('Crear nuevo usuario');
+        ->assertSee('Crear usuario');
     }
 
     /** @test */
@@ -75,5 +75,40 @@ class UsersModuleTest extends TestCase
         $this->get('usuarios/5/edit')
             ->assertStatus(200)
             ->assertSee('Editando al usuario 5');
+    }
+
+    /** @test */
+    function it_creates_a_new_user()
+    {
+        $this->post('/usuarios/crear', [
+            'name' => 'Usuario',
+            'email' => 'usuario@nuevo.com',
+            'password' => '123456'
+        ])->assertRedirect(route('users.index'));
+
+        $this->assertCredentials([
+            'name' => 'Usuario',
+            'email' => 'usuario@nuevo.com',
+            'password' => '123456'
+        ]);
+    }
+
+    /** @test */
+    function the_name_is_required()
+    {
+        $this->from('usuarios/nuevo')->post('/usuarios/crear', [
+            'name' => '',
+            'email' => 'usuario@nuevo.com',
+            'password' => '123456'
+        ])->assertRedirect('usuarios/nuevo')
+            ->assertSessionHasErrors(['name' => 'El campo nombre es obligatorio']);
+
+        $this->assertEquals(0, User::count());
+
+        /*
+        $this->assertDatabaseMissing('users', [
+            'email' => 'usuario@nuevo.com'
+        ]);
+        */
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use \App\Models\User;
-use \App\Models\Profession;
+use App\User;
+use App\Profession;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
