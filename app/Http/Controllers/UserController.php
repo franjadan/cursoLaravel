@@ -40,6 +40,11 @@ class UserController extends Controller
         return view('users.create');
     }
 
+    public function store()
+    {
+        return "Procesando información...";
+    }
+
     public function edit($id) {
         return view('users.edit', [
             'id' => $id
