@@ -6,23 +6,39 @@
 @section('content')
     <h1>Crear usuario</h1>
 
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <h6>Por favor corrige los siguientes debajo:</h6>
+            <!--
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            -->
+        </div>
+    @endif
+
     <form method="POST" action="{{ url('usuarios/crear') }}">
 
         {{ csrf_field() }}
 
         <div class="form-group">
             <label for="name">Nombre</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Nombre">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Pedro Perez" value="{{ old('name') }}">
+            @if ($errors->has('name'))
+                <p class="text-danger">{{ $errors->first('name') }}</p>
+            @endif
         </div>
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            <input type="email" class="form-control" id="email" name="email" placeholder="pedro@example.com" value="{{ old('email') }}">
         </div>
 
         <div class="form-group">
             <label for="password">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Mayor a 6 caracteres">
         </div>
 
         <input type="submit" class="btn btn-success" value="Crear usuario">

@@ -43,6 +43,8 @@ class UserController extends Controller
     public function store()
     {
 
+        //return redirect('usuarios/nuevo')->withInput();
+
         $data = request()->validate([
             'name' => 'required'
         ], [
