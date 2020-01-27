@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Profession;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -38,7 +39,12 @@ class UserController extends Controller
 
     public function create() 
     {
-        return view('users.create');
+
+        $professions = Profession::all();
+
+        return view('users.create', [
+            'professions' => $professions
+        ]);
     }
 
     public function store()
@@ -50,19 +56,25 @@ class UserController extends Controller
             'name' => 'required',
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:6'],
+            'admin' => 'required',
+            'professions' => 'required'
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'email.email' => 'El campo email debe ser válido',
             'email.unique' => 'El campo email debe ser único',
             'password.required' => 'El campo password debe ser obligatorio',
-            'password.min' => 'El campo password debe tener mínimo 6 caracteres'
+            'password.min' => 'El campo password debe tener mínimo 6 caracteres',
+            'admin.required' => 'El campo administrador debe ser obligatorio',
+            'professions.required' => 'El campo profesión debe ser obligatorio'
         ]);
 
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password'])
+            'password' => bcrypt($data['password']),
+            'is_admin' => $data['admin'] == 'true' ? true : false,
+            'profession_id' => (int)$data['professions']
         ]);
 
         return redirect()->route('users.index');
@@ -105,7 +117,7 @@ class UserController extends Controller
     {
 
         $user->delete();
-        
+
         return redirect()->route('users.index');
     }
 }

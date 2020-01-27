@@ -47,6 +47,35 @@
             @endif
         </div>
 
+        <div class="form-group">
+            <label>¿Es administrador?</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input" value="true" name="admin">Sí
+                </label>
+              </div>
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" checked="true" value="false" class="form-check-input" name="admin">No
+                </label>
+              </div>
+            @if ($errors->has('admin'))
+                <p class="text-danger">{{ $errors->first('admin') }}</p>
+            @endif
+        </div>
+
+        <div class="form-group">
+            <label for="professions">Select list:</label>
+            <select class="form-control" name="professions" id="professions">
+              @foreach ($professions as $profession)
+                <option value="{{ $profession->id }}">{{ $profession->title }}</option>
+              @endforeach
+            </select>
+            @if ($errors->has('professions'))
+                <p class="text-danger">{{ $errors->first('professions') }}</p>
+            @endif
+          </div>
+
         <input type="submit" class="btn btn-success" value="Crear usuario">
     </form>
 

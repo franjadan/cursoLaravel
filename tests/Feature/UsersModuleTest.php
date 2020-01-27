@@ -89,13 +89,17 @@ class UsersModuleTest extends TestCase
         $this->post('/usuarios/crear', [
             'name' => 'Usuario',
             'email' => 'usuario@nuevo.com',
-            'password' => '123456'
+            'password' => '123456',
+            'is_admin' => false,
+            'profession_id' => 1
         ])->assertRedirect(route('users.index'));
 
         $this->assertCredentials([
             'name' => 'Usuario',
             'email' => 'usuario@nuevo.com',
-            'password' => '123456'
+            'password' => '123456',
+            'is_admin' => false,
+            'profession_id' => 1
         ]);
     }
 
