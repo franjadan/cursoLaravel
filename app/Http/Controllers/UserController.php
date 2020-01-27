@@ -78,7 +78,6 @@ class UserController extends Controller
 
     public function update(User $user)
     {
-
         $data = request()->validate([
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
@@ -100,5 +99,13 @@ class UserController extends Controller
         $user->update($data);
 
         return redirect()->route('users.show', ['user' => $user]);
+    }
+
+    public function destroy(User $user)
+    {
+
+        $user->delete();
+        
+        return redirect()->route('users.index');
     }
 }

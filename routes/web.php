@@ -33,6 +33,8 @@ Route::get('/usuarios/{user}/editar', 'UserController@edit')
 
 Route::put('/usuarios/{user}', 'UserController@update');
 
+Route::delete('/usuarios/{user}', 'UserController@destroy')->name('users.destroy');
+
 Route::get('/saludo/{name}', 'WelcomeUserController@greetWithoutNickname');
 
 Route::get('/saludo/{name}/{nickname}', 'WelcomeUserController@greetWithNickname');
