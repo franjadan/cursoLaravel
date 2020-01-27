@@ -33,12 +33,18 @@
 
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="pedro@example.com" value="{{ old('email') }}">
+            <input type="text" class="form-control" id="email" name="email" placeholder="pedro@example.com" value="{{ old('email') }}">
+            @if ($errors->has('email'))
+                <p class="text-danger">{{ $errors->first('email') }}</p>
+            @endif
         </div>
 
         <div class="form-group">
             <label for="password">Contraseña</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Mayor a 6 caracteres">
+            @if ($errors->has('password'))
+                <p class="text-danger">{{ $errors->first('password') }}</p>
+            @endif
         </div>
 
         <input type="submit" class="btn btn-success" value="Crear usuario">

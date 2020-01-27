@@ -46,9 +46,16 @@ class UserController extends Controller
         //return redirect('usuarios/nuevo')->withInput();
 
         $data = request()->validate([
-            'name' => 'required'
+            'name' => 'required',
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'min:6'],
         ], [
-            'name.required' => 'El campo nombre es obligatorio'
+            'name.required' => 'El campo nombre es obligatorio',
+            'email.required' => 'El campo email es obligatorio',
+            'email.email' => 'El campo email debe ser válido',
+            'email.unique' => 'El campo email debe ser único',
+            'password.required' => 'El campo password debe ser obligatorio',
+            'password.min' => 'El campo password debe tener mínimo 6 caracteres'
         ]);
 
         User::create([
