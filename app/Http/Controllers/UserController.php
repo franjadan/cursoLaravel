@@ -82,8 +82,12 @@ class UserController extends Controller
 
     public function edit(User $user) 
     {
+
+        $professions = Profession::all();
+
         return view('users.edit', [
             'user' => $user,
+            'professions' => $professions
             
         ]);
     }
@@ -94,21 +98,36 @@ class UserController extends Controller
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'min:6'],
+            'admin' => 'required',
+            'professions' => 'required'
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'email.email' => 'El campo email debe ser válido',
             'email.unique' => 'El campo email debe ser único',
-            'password.min' => 'El campo password debe tener mínimo 6 caracteres'
+            'password.min' => 'El campo password debe tener mínimo 6 caracteres',
+            'admin.required' => 'El campo administrador debe ser obligatorio',
+            'professions.required' => 'El campo profesión debe ser obligatorio'
         ]);
 
         if($data['password'] != null){
             $data['password'] = bcrypt($data['password']);
+            $user->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'is_admin' => $data['admin'] == 'true' ? true : false,
+                'profession_id' => (int)$data['professions']
+            ]);
         } else {
             unset($data['password']);
+            $user->update([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'is_admin' => $data['admin'] == 'true' ? true : false,
+                'profession_id' => (int)$data['professions']
+            ]);
         }
-
-        $user->update($data);
 
         return redirect()->route('users.show', ['user' => $user]);
     }

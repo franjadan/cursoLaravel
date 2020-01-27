@@ -48,6 +48,46 @@
             @endif
         </div>
 
+        <div class="form-group">
+            <label>¿Es administrador?</label>
+            <div class="form-check">
+                <label class="form-check-label">
+                    @if ($user->is_admin == true)
+                        <input type="radio" checked="true" class="form-check-input" value="true" name="admin">Sí
+                    @else
+                        <input type="radio" class="form-check-input" value="true" name="admin">Sí
+                    @endif
+                </label>
+              </div>
+              <div class="form-check"></label>
+                <label class="form-check-label">
+                @if ($user->is_admin == false)
+                    <input type="radio" class="form-check-input" checked="true" value="false" name="admin">No
+                @else
+                    <input type="radio" class="form-check-input" value="false" name="admin">No
+                @endif
+              </div>
+            @if ($errors->has('admin'))
+                <p class="text-danger">{{ $errors->first('admin') }}</p>
+            @endif
+        </div>
+
+        <div class="form-group">
+            <label for="professions">Select list:</label>
+            <select class="form-control" name="professions" id="professions">
+              @foreach ($professions as $profession)
+                @if ($user->profession_id == $profession->id)
+                    <option selected="true" value="{{ $profession->id }}">{{ $profession->title }}</option>
+                @else
+                    <option value="{{ $profession->id }}">{{ $profession->title }}</option>
+                @endif
+              @endforeach
+            </select>
+            @if ($errors->has('professions'))
+                <p class="text-danger">{{ $errors->first('professions') }}</p>
+            @endif
+          </div>
+
         <input type="submit" class="btn btn-success" value="Guardar cambios">
     </form>
 

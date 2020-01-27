@@ -8,6 +8,8 @@
 
     <p>Nombre del usuario: {{ $user->name }}</p>
     <p>Correo electrónico: {{ $user->email }}</p>
+    <p>Es administrador?: @if ($user->is_admin) Sí @else No @endif</p>
+    <p>Profesión: {{ $user->profession->title }}</p>
 
     <div class="buttons">
         <!--<a href="{{ url('/usuarios') }}">Regresar</a>-->
@@ -19,6 +21,6 @@
             {{ csrf_field() }}
             <input class="btn btn-danger" type="submit" value="Eliminar usuario">
         </form>
-        <a class="btn btn-secondary" href="{{ url('/') }}">Regresar al listado de usuarios</a>
+        <a class="btn btn-secondary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
     </div>
 @endsection
