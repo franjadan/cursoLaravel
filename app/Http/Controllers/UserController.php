@@ -8,6 +8,7 @@ use App\User;
 use App\Profession;
 use App\UserProfile;
 use Illuminate\Validation\Rule;
+use App\Http\Requests\CreateUserRequest;
 
 class UserController extends Controller
 {
@@ -48,33 +49,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function store()
+    public function store(CreateUserRequest $request)
     {
-
-        //return redirect('usuarios/nuevo')->withInput();
-
-        $data = request()->validate([
-            'name' => 'required',
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:6'],
-            'bio' => 'required',
-            'twitter' => ['nullable', 'url'],
-            'professions' => 'required',
-            'admin' => 'required'
-        ], [
-            'name.required' => 'El campo nombre es obligatorio',
-            'email.required' => 'El campo email es obligatorio',
-            'email.email' => 'El campo email debe ser válido',
-            'email.unique' => 'El campo email debe ser único',
-            'password.required' => 'El campo password debe ser obligatorio',
-            'password.min' => 'El campo password debe tener mínimo 6 caracteres',
-            'bio.required' => 'El campo bio es obligatorio',
-            'twitter.url' => 'El campo twitter debe ser una url válida',
-            'professions.required' => 'El campo profesión debe ser obligatorio',
-            'admin.required' => 'El campo administrador es obligatorio'
-        ]);
-        
-        User::createUser($data);
+        $request->createUser();
 
         return redirect()->route('users.index');
     }

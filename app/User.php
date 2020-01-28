@@ -3,7 +3,6 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -31,23 +30,6 @@ class User extends Authenticatable
     protected $cast = [
         'is_admin' => 'boolean'
     ];
-
-    public static function createUser($data){
-         DB::transaction(function () use ($data) {
-            $user = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => bcrypt($data['password']),
-                'is_admin' => $data['admin'] == 'true' ? true : false,
-                'profession_id' => (int)$data['professions']
-            ]);
-    
-            $user->profile()->create([
-                'bio' => $data['bio'],
-                'twitter' => $data['twitter'] ?? null
-            ]);
-        });
-    }
 
     public function profession() //profession_id
     {
