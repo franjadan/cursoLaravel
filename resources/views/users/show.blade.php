@@ -9,7 +9,9 @@
     <p>Nombre del usuario: {{ $user->name }}</p>
     <p>Correo electrónico: {{ $user->email }}</p>
     <p>Es administrador?: @if ($user->is_admin) Sí @else No @endif</p>
-    <p>Profesión: {{ $user->profession->title }}</p>
+    @if (isset($user->profession))
+        <p>Profesión: {{ $user->profession->title }}</p>
+    @endif
 
     <div class="buttons">
         <!--<a href="{{ url('/usuarios') }}">Regresar</a>-->
