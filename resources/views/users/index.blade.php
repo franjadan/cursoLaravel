@@ -9,7 +9,7 @@
     <a href="{{ route('users.create') }}" class="btn btn-primary mt-2">Nuevo usuario</a>
 
     @if(!$users->isEmpty())
-        <table class="table table-bordered table-striped mt-3">
+        <table class="table table-bordered table-hover table-striped mt-3">
             <thead>
             <tr>
                 <th scope="col">Nombre</th>

@@ -63,7 +63,7 @@
 <main role="main" class="flex-shrink-0 mt-5">
     <div class="container">
         <div class="row">
-            <div class="col-8">
+            <div class="col-12">
                 @yield('content')
             </div>
             <!--
