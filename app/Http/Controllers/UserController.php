@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Profession;
+use App\UserProfile;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -56,8 +57,10 @@ class UserController extends Controller
             'name' => 'required',
             'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required', 'min:6'],
-            'admin' => 'required',
-            'professions' => 'required'
+            'bio' => 'required',
+            'twitter' => ['nullable', 'url'],
+            'professions' => 'required',
+            'admin' => 'required'
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
@@ -65,17 +68,13 @@ class UserController extends Controller
             'email.unique' => 'El campo email debe ser único',
             'password.required' => 'El campo password debe ser obligatorio',
             'password.min' => 'El campo password debe tener mínimo 6 caracteres',
-            'admin.required' => 'El campo administrador debe ser obligatorio',
-            'professions.required' => 'El campo profesión debe ser obligatorio'
+            'bio.required' => 'El campo bio es obligatorio',
+            'twitter.url' => 'El campo twitter debe ser una url válida',
+            'professions.required' => 'El campo profesión debe ser obligatorio',
+            'admin.required' => 'El campo administrador es obligatorio'
         ]);
-
-        User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-            'is_admin' => $data['admin'] == 'true' ? true : false,
-            'profession_id' => (int)$data['professions']
-        ]);
+        
+        User::createUser($data);
 
         return redirect()->route('users.index');
     }

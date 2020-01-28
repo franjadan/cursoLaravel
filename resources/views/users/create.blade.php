@@ -48,6 +48,34 @@
         </div>
 
         <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea class="form-control" rows="5" name="bio" id="bio">{{ old('bio') }}</textarea>
+            @if ($errors->has('bio'))
+                <p class="text-danger">{{ $errors->first('bio') }}</p>
+            @endif
+        </div>
+
+        <div class="form-group">
+            <label for="twitter">Twitter</label>
+            <input type="text" class="form-control" id="twitter" name="twitter" placeholder="https://twitter.com/pedrop" value="{{ old('twitter') }}">
+            @if ($errors->has('password'))
+                <p class="text-danger">{{ $errors->first('twitter') }}</p>
+            @endif
+        </div>
+
+        <div class="form-group">
+            <label for="professions">Select list:</label>
+            <select class="form-control" name="professions" id="professions">
+              @foreach ($professions as $profession)
+                <option value="{{ $profession->id }}">{{ $profession->title }}</option>
+              @endforeach
+            </select>
+            @if ($errors->has('professions'))
+                <p class="text-danger">{{ $errors->first('professions') }}</p>
+            @endif
+          </div>
+
+          <div class="form-group">
             <label>¿Es administrador?</label>
             <div class="form-check">
                 <label class="form-check-label">
@@ -64,21 +92,9 @@
             @endif
         </div>
 
-        <div class="form-group">
-            <label for="professions">Select list:</label>
-            <select class="form-control" name="professions" id="professions">
-              @foreach ($professions as $profession)
-                <option value="{{ $profession->id }}">{{ $profession->title }}</option>
-              @endforeach
-            </select>
-            @if ($errors->has('professions'))
-                <p class="text-danger">{{ $errors->first('professions') }}</p>
-            @endif
-          </div>
-
         <input type="submit" class="btn btn-success" value="Crear usuario">
-    </form>
+        <a class="btn btn-secondary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
 
-    <a href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
+    </form>
 
 @endsection

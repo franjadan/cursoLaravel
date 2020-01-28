@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -31,6 +32,23 @@ class User extends Authenticatable
         'is_admin' => 'boolean'
     ];
 
+    public static function createUser($data){
+         DB::transaction(function () use ($data) {
+            $user = User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => bcrypt($data['password']),
+                'is_admin' => $data['admin'] == 'true' ? true : false,
+                'profession_id' => (int)$data['professions']
+            ]);
+    
+            $user->profile()->create([
+                'bio' => $data['bio'],
+                'twitter' => $data['twitter']
+            ]);
+        });
+    }
+
     public function profession() //profession_id
     {
         return $this->belongsTo(Profession::class);
@@ -39,6 +57,11 @@ class User extends Authenticatable
     public static function findByEmail($email)
     {
         return static::where('email', '=', $email)->first();
+    }
+
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
     }
 
     public function isAdmin()

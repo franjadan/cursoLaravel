@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Profession;
+use App\UserProfile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

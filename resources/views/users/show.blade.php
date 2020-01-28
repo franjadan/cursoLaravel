@@ -8,6 +8,14 @@
 
     <p>Nombre del usuario: {{ $user->name }}</p>
     <p>Correo electrónico: {{ $user->email }}</p>
+    
+    @if (isset($user->profile))
+        <p>Bio: {{ $user->profile->bio }}</p>
+        @if (isset($user->profile->twitter))
+            <p>Twitter: {{ $user->profile->twitter }}</p>
+        @endif
+    @endif
+
     <p>Es administrador?: @if ($user->is_admin) Sí @else No @endif</p>
     @if (isset($user->profession))
         <p>Profesión: {{ $user->profession->title }}</p>
