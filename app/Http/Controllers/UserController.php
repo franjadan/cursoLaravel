@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Profession;
 use App\UserProfile;
+use App\Skill;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\CreateUserRequest;
 
@@ -43,9 +44,11 @@ class UserController extends Controller
     {
 
         $professions = Profession::orderBy('title', 'ASC')->get();
+        $skills = Skill::orderBy('name', 'ASC')->get();
 
         return view('users.create', [
-            'professions' => $professions
+            'professions' => $professions,
+            'skills' => $skills
         ]);
     }
 
@@ -73,9 +76,9 @@ class UserController extends Controller
         $data = request()->validate([
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => ['nullable', 'min:6'],
+            'password' => ['nullable', 'present', 'min:6'],
             'admin' => 'required',
-            'profession_id' => 'required'
+            'profession_id' => ['required', Rule::exists('professions', 'id')]
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',

@@ -64,14 +64,22 @@
         </div>
 
         <div class="form-group">
+            <p>Habilidades</p>
+
+            @foreach($skills as $skill)
+                <div class="form-check form-check-inline">
+                    <input name="skills[{{ $skill->id }}]" class="form-check-input" type="checkbox" id="skill_{{ $skill->id }}" value="{{ $skill->id }}" {{ old("skills.{$skill->id}") ? 'checked' : '' }}>
+                    <label class="form-check-label" for="skill_{{ $skill->id }}">{{ $skill->name }}</label>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="form-group">
             <label for="profession_id">Select list:</label>
             <select class="form-control" name="profession_id" id="profession_id">
+                <option value="">Seleciona una profesión</option>
               @foreach ($professions as $profession)
-                @if ($profession->id == old('profession_id'))
-                    <option selected="true" value="{{ $profession->id }}">{{ $profession->title }}</option>
-                @else
-                    <option value="{{ $profession->id }}">{{ $profession->title }}</option>
-                @endif
+                <option {{ $profession->id == old('profession_id') ? 'selected' : '' }} value="{{ $profession->id }}">{{ $profession->title }}</option>
               @endforeach
             </select>
             @if ($errors->has('profession_id'))
@@ -83,12 +91,12 @@
             <label>¿Es administrador?</label>
             <div class="form-check">
                 <label class="form-check-label">
-                  <input type="radio" class="form-check-input" value="true" name="admin">Sí
+                  <input type="radio" {{ old('admin') == true ? 'checked' : '' }} class="form-check-input" value="true" name="admin">Sí
                 </label>
               </div>
               <div class="form-check">
                 <label class="form-check-label">
-                  <input type="radio" checked="true" value="false" class="form-check-input" name="admin">No
+                  <input type="radio" {{ old('admin') == false ? 'checked' : '' }} value="false" class="form-check-input" name="admin">No
                 </label>
               </div>
             @if ($errors->has('admin'))

@@ -29,9 +29,9 @@ class CreateUserRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'min:6'],
+            'password' => ['required', 'present', 'min:6'],
             'bio' => 'required',
-            'twitter' => ['nullable', 'url'],
+            'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => ['required', Rule::exists('professions', 'id')],
             'admin' => 'required'
         ];
@@ -62,13 +62,13 @@ class CreateUserRequest extends FormRequest
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
-                'is_admin' => $data['admin'] == 'true' ? true : false,
-                'profession_id' => (int)$data['profession_id']
+                'is_admin' => $data['admin'] == 'true' ? true : false
             ]);
     
             $user->profile()->create([
                 'bio' => $data['bio'],
-                'twitter' => $data['twitter'] ?? null
+                'twitter' => $data['twitter'],
+                'profession_id' => (int)$data['profession_id']
             ]);
         });
     }

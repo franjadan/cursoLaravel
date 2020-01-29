@@ -10,6 +10,9 @@
     <p>Correo electrónico: {{ $user->email }}</p>
     
     @if (isset($user->profile))
+        @if (isset($user->profile->profession_id))
+            <p>Profesión: {{ $user->profile->profession->title }}</p>
+        @endif
         <p>Bio: {{ $user->profile->bio }}</p>
         @if (isset($user->profile->twitter))
             <p>Twitter: {{ $user->profile->twitter }}</p>
