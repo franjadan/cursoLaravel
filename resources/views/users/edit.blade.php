@@ -73,18 +73,18 @@
         </div>
 
         <div class="form-group">
-            <label for="professions">Select list:</label>
-            <select class="form-control" name="professions" id="professions">
+            <label for="profession_id">Select list:</label>
+            <select class="form-control" name="profession_id" id="profession_id">
               @foreach ($professions as $profession)
-                @if (old('professions', $user->profession->id) == $profession->id)
+                @if (old('profession_id', $user->profession->id) == $profession->id)
                     <option selected="true" value="{{ $profession->id }}">{{ $profession->title }}</option>
                 @else
                     <option value="{{ $profession->id }}">{{ $profession->title }}</option>
                 @endif
               @endforeach
             </select>
-            @if ($errors->has('professions'))
-                <p class="text-danger">{{ $errors->first('professions') }}</p>
+            @if ($errors->has('profession_id'))
+                <p class="text-danger">{{ $errors->first('profession_id') }}</p>
             @endif
           </div>
 

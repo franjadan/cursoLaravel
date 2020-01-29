@@ -42,7 +42,7 @@ class UserController extends Controller
     public function create() 
     {
 
-        $professions = Profession::all();
+        $professions = Profession::orderBy('title', 'ASC')->get();
 
         return view('users.create', [
             'professions' => $professions
@@ -59,7 +59,7 @@ class UserController extends Controller
     public function edit(User $user) 
     {
 
-        $professions = Profession::all();
+        $professions = Profession::orderBy('title', 'ASC')->get();
 
         return view('users.edit', [
             'user' => $user,
@@ -75,7 +75,7 @@ class UserController extends Controller
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'min:6'],
             'admin' => 'required',
-            'professions' => 'required'
+            'profession_id' => 'required'
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
@@ -83,7 +83,7 @@ class UserController extends Controller
             'email.unique' => 'El campo email debe ser único',
             'password.min' => 'El campo password debe tener mínimo 6 caracteres',
             'admin.required' => 'El campo administrador debe ser obligatorio',
-            'professions.required' => 'El campo profesión debe ser obligatorio'
+            'profession_id.required' => 'El campo profesión debe ser obligatorio'
         ]);
 
         if($data['password'] != null){
@@ -93,7 +93,7 @@ class UserController extends Controller
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
                 'is_admin' => $data['admin'] == 'true' ? true : false,
-                'profession_id' => (int)$data['professions']
+                'profession_id' => (int)$data['profession_id']
             ]);
         } else {
             unset($data['password']);
@@ -101,7 +101,7 @@ class UserController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'is_admin' => $data['admin'] == 'true' ? true : false,
-                'profession_id' => (int)$data['professions']
+                'profession_id' => (int)$data['profession_id']
             ]);
         }
 
