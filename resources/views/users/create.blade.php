@@ -67,7 +67,11 @@
             <label for="professions">Select list:</label>
             <select class="form-control" name="professions" id="professions">
               @foreach ($professions as $profession)
-                <option value="{{ $profession->id }}">{{ $profession->title }}</option>
+                @if ($profession->id == old('professions'))
+                    <option selected="true" value="{{ $profession->id }}">{{ $profession->title }}</option>
+                @else
+                    <option value="{{ $profession->id }}">{{ $profession->title }}</option>
+                @endif
               @endforeach
             </select>
             @if ($errors->has('professions'))

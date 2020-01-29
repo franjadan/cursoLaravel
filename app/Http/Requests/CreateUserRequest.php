@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use App\User;
 
 class CreateUserRequest extends FormRequest
@@ -31,7 +32,7 @@ class CreateUserRequest extends FormRequest
             'password' => ['required', 'min:6'],
             'bio' => 'required',
             'twitter' => ['nullable', 'url'],
-            'professions' => 'required',
+            'professions' => ['required', Rule::exists('professions', 'id')],
             'admin' => 'required'
         ];
     }
