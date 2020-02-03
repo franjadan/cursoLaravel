@@ -52,6 +52,7 @@ class CreateUserRequest extends FormRequest
             'profession_id.exists' => 'El campo profesión debe ser válido',
             'profession_id.present' => 'El campo profesión debe estar presente',
             'twitter.url' => 'El campo twitter debe ser una url válida',
+            'role.in' => 'El rol debe ser válido'
         ];
     }
 
