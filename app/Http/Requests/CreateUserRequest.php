@@ -32,8 +32,9 @@ class CreateUserRequest extends FormRequest
             'password' => ['required', 'present', 'min:6'],
             'bio' => 'required',
             'twitter' => ['nullable', 'present', 'url'],
-            'profession_id' => ['required', Rule::exists('professions', 'id')],
-            'admin' => 'required'
+            'profession_id' => ['nullable', 'present', Rule::exists('professions', 'id')],
+            'admin' => 'required',
+            'skills' => ['array'. Rule::exits('skills', 'id')]
         ];
     }
 
@@ -47,8 +48,9 @@ class CreateUserRequest extends FormRequest
             'password.required' => 'El campo password debe ser obligatorio',
             'password.min' => 'El campo password debe tener mínimo 6 caracteres',
             'bio.required' => 'El campo bio es obligatorio',
+            'profession_id.exists' => 'El campo profesión debe ser válido',
+            'profession_id.present' => 'El campo profesión debe estar presente',
             'twitter.url' => 'El campo twitter debe ser una url válida',
-            'profession_id.required' => 'El campo profesión debe ser obligatorio',
             'admin.required' => 'El campo administrador es obligatorio'
         ];
     }
@@ -68,8 +70,12 @@ class CreateUserRequest extends FormRequest
             $user->profile()->create([
                 'bio' => $data['bio'],
                 'twitter' => $data['twitter'],
-                'profession_id' => (int)$data['profession_id']
+                'profession_id' => $data['profession_id'] ?? null
             ]);
+
+            if(! empty($data['skills'])) {
+                $user->skills()->attach($data['skills']);
+            }
         });
     }
 }

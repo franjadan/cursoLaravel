@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->hasOne(UserProfile::class);
     }
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class, 'user_skills');
+    }
+
     public function isAdmin()
     {
         return $this->email === 'francisco.adan@escuelaestech.es';
