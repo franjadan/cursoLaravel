@@ -20,7 +20,7 @@
             <tbody>
                 @foreach ($users as $user)
                 <tr>
-                    <td>{{ $user->name }} @if ($user->is_admin == 1) (Admin) @endif</td>
+                    <td>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif</td>
                     <td>{{ $user->email }}</td>
                     <td class="buttons">
                         <a class="showBtn" href="{{ route('users.show', ['user' => $user]) }}"><i class="fas fa-eye"></i></a>

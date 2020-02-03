@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use App\User;
+use App\Role;
 
 class CreateUserRequest extends FormRequest
 {
@@ -33,8 +34,8 @@ class CreateUserRequest extends FormRequest
             'bio' => 'required',
             'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => ['nullable', 'present', Rule::exists('professions', 'id')],
-            'admin' => 'required',
-            'skills' => ['array'. Rule::exits('skills', 'id')]
+            'role' => ['nullable', Rule::in(Role::getList())],
+            'skills' => ['array'. Rule::exists('skills', 'id')]
         ];
     }
 
@@ -51,7 +52,6 @@ class CreateUserRequest extends FormRequest
             'profession_id.exists' => 'El campo profesión debe ser válido',
             'profession_id.present' => 'El campo profesión debe estar presente',
             'twitter.url' => 'El campo twitter debe ser una url válida',
-            'admin.required' => 'El campo administrador es obligatorio'
         ];
     }
 
@@ -64,7 +64,7 @@ class CreateUserRequest extends FormRequest
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
-                'is_admin' => $data['admin'] == 'true' ? true : false
+                'role' => $data['role'] ?? 'user'
             ]);
     
             $user->profile()->create([

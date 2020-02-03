@@ -75,7 +75,7 @@
         </div>
 
         <div class="form-group">
-            <label for="profession_id">Select list:</label>
+            <label for="profession_id">Profesión:</label>
             <select class="form-control" name="profession_id" id="profession_id">
                 <option value="">Seleciona una profesión</option>
               @foreach ($professions as $profession)
@@ -88,19 +88,16 @@
           </div>
 
           <div class="form-group">
-            <label>¿Es administrador?</label>
-            <div class="form-check">
-                <label class="form-check-label">
-                  <input type="radio" {{ old('admin') == true ? 'checked' : '' }} class="form-check-input" value="true" name="admin">Sí
-                </label>
-              </div>
-              <div class="form-check">
-                <label class="form-check-label">
-                  <input type="radio" {{ old('admin') == false ? 'checked' : '' }} value="false" class="form-check-input" name="admin">No
-                </label>
-              </div>
-            @if ($errors->has('admin'))
-                <p class="text-danger">{{ $errors->first('admin') }}</p>
+            <label>Rol</label>
+            @foreach($roles as $role => $name)
+                <div class="form-check">
+                    <label class="form-check-label">
+                    <input type="radio" {{ old('role') == $role ? 'checked' : '' }} class="form-check-input" value="{{ $role }}" id="role_{{ $role }}" name="role"> {{ $name }}
+                    </label>
+                </div>
+            @endforeach
+            @if ($errors->has('role'))
+                <p class="text-danger">{{ $errors->first('role') }}</p>
             @endif
         </div>
 
