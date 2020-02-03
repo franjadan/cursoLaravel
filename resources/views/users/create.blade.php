@@ -105,7 +105,7 @@
         </div>
 
         <input type="submit" class="btn btn-success" value="Crear usuario">
-        <a class="btn btn-secondary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
+        <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
 
     </form>
 

@@ -24,16 +24,6 @@
         <p>Profesión: {{ $user->profession->title }}</p>
     @endif
 
-    <div class="buttons">
-        <!--<a href="{{ url('/usuarios') }}">Regresar</a>-->
-        <!--<a href="{{ url()->previous() }}">Regresar</a>-->
-        <!--<a href="{{ action('UserController@index') }}">Regresar</a>-->
-        <a class="btn btn-primary" href="{{ route('users.edit', ['user' => $user]) }}">Editar usuario</a>
-        <form class="" action="{{ route('users.destroy', ['user' => $user]) }}" method="POST">
-            {{ method_field('DELETE') }}
-            {{ csrf_field() }}
-            <input class="btn btn-danger" type="submit" value="Eliminar usuario">
-        </form>
-        <a class="btn btn-secondary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
-    </div>
+    <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
+
 @endsection

@@ -5,6 +5,6 @@
 
 @section('content')
     <h1>Página no encontrada</h1>
-    <a class="btn btn-secondary" href="{{ url('/') }}">Regresar al inicio</a>
+    <a class="btn btn-outline-primary" href="{{ url('/') }}">Regresar al inicio</a>
 
 @endsection

@@ -14,19 +14,23 @@
             <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Correo</th>
-                <th scope="col">Admin</th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
                 @foreach ($users as $user)
                 <tr>
-                    <td><a href="{{ route('users.show', ['user' => $user]) }}">{{ $user->name }}</a></td>
+                    <td>{{ $user->name }} @if ($user->is_admin == 1) (Admin) @endif</td>
                     <td>{{ $user->email }}</td>
-                    @if ($user->is_admin == 1)
-                        <td><i class="fas fa-check text-success"></i></td>
-                    @else
-                        <td><i class="fas fa-times text-danger"></i></td>
-                    @endif
+                    <td class="buttons">
+                        <a class="showBtn" href="{{ route('users.show', ['user' => $user]) }}"><i class="fas fa-eye"></i></a>
+                        <a class="editBtn" href="{{ route('users.edit', ['user' => $user]) }}"><i class="fas fa-edit"></i></a>
+                        <form class="" action="{{ route('users.destroy', ['user' => $user]) }}" method="POST">
+                            {{ method_field('DELETE') }}
+                            {{ csrf_field() }}
+                            <button class="deleteBtn" type="submit"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
