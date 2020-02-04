@@ -2,22 +2,25 @@
 
 @section('title', "Usuario {$user->id}");
 
-
 @section('content')
-    <h1>Editar usuario</h1>
 
-    @include('shared._errors')
+        @component('shared._card')
+            @slot('header', 'Editar usuario')
 
-    <form method="POST" action="{{ url("usuarios/{$user->id}") }}">
+            @slot('content')
+                @include('shared._errors')
 
-        {{ method_field('PUT') }}
-        
-        @include('users._fields')
-
-        <input type="submit" class="btn btn-success" value="Guardar cambios">
-        <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
-
-    </form>
-
+                <form method="POST" action="{{ url("usuarios/{$user->id}") }}">
+            
+                    {{ method_field('PUT') }}
+                    
+                    @include('users._fields')
+            
+                    <input type="submit" class="btn btn-success" value="Guardar cambios">
+                    <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
+            
+                </form>
+            @endslot
+        @endcomponent
 
 @endsection
