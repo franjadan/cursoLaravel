@@ -4,7 +4,7 @@
 
 @section('content')
 
-        @component('shared._card')
+        @card
             @slot('header', 'Editar usuario')
 
             @slot('content')
@@ -21,6 +21,6 @@
             
                 </form>
             @endslot
-        @endcomponent
+        @endcard
 
 @endsection

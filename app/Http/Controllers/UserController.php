@@ -24,17 +24,6 @@ class UserController extends Controller
 
     public function show(User $user) 
     {
-
-        /*
-        $user = User::find($id);
-
-        if($user == null) {
-            return response()->view('errors.404', [], 404);
-        }
-        */
-
-        //$user = User::findOrFail($id);
-        
         return view('users.show', [
             'user' => $user
         ]);
@@ -42,17 +31,9 @@ class UserController extends Controller
 
     public function create() 
     {
-
-        $professions = Profession::orderBy('title', 'ASC')->get();
-        $skills = Skill::orderBy('name', 'ASC')->get();
-        $roles = trans('users.roles');
-
         $user = new User;
 
         return view('users.create', [
-            'professions' => $professions,
-            'skills' => $skills,
-            'roles' => $roles,
             'user' => $user
         ]);
     }
@@ -67,15 +48,8 @@ class UserController extends Controller
     public function edit(User $user) 
     {
 
-        $professions = Profession::orderBy('title', 'ASC')->get();
-        $skills = Skill::orderBy('name', 'ASC')->get();
-        $roles = trans('users.roles');
-
         return view('users.edit', [
             'user' => $user,
-            'professions' => $professions,
-            'skills' => $skills,
-            'roles' => $roles
         ]);
     }
 
