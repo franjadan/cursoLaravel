@@ -47,10 +47,13 @@ class UserController extends Controller
         $skills = Skill::orderBy('name', 'ASC')->get();
         $roles = trans('users.roles');
 
+        $user = new User;
+
         return view('users.create', [
             'professions' => $professions,
             'skills' => $skills,
-            'roles' => $roles
+            'roles' => $roles,
+            'user' => $user
         ]);
     }
 
@@ -65,11 +68,14 @@ class UserController extends Controller
     {
 
         $professions = Profession::orderBy('title', 'ASC')->get();
+        $skills = Skill::orderBy('name', 'ASC')->get();
+        $roles = trans('users.roles');
 
         return view('users.edit', [
             'user' => $user,
-            'professions' => $professions
-            
+            'professions' => $professions,
+            'skills' => $skills,
+            'roles' => $roles
         ]);
     }
 
@@ -79,16 +85,12 @@ class UserController extends Controller
             'name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'present', 'min:6'],
-            'admin' => 'required',
-            'profession_id' => ['required', Rule::exists('professions', 'id')]
         ], [
             'name.required' => 'El campo nombre es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'email.email' => 'El campo email debe ser válido',
             'email.unique' => 'El campo email debe ser único',
             'password.min' => 'El campo password debe tener mínimo 6 caracteres',
-            'admin.required' => 'El campo administrador debe ser obligatorio',
-            'profession_id.required' => 'El campo profesión debe ser obligatorio'
         ]);
 
         if($data['password'] != null){
@@ -97,16 +99,12 @@ class UserController extends Controller
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => bcrypt($data['password']),
-                'is_admin' => $data['admin'] == 'true' ? true : false,
-                'profession_id' => (int)$data['profession_id']
             ]);
         } else {
             unset($data['password']);
             $user->update([
                 'name' => $data['name'],
                 'email' => $data['email'],
-                'is_admin' => $data['admin'] == 'true' ? true : false,
-                'profession_id' => (int)$data['profession_id']
             ]);
         }
 
