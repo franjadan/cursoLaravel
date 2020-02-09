@@ -32,9 +32,22 @@ Route::get('/usuarios/{user}/editar', 'UserController@edit')
 
 Route::put('/usuarios/{user}', 'UserController@update');
 
-Route::delete('/usuarios/{user}', 'UserController@destroy')->name('users.destroy');
+Route::delete('/usuarios/{user}', 'UserController@destroy')
+    ->name('users.destroy');
 
 Route::get('/saludo/{name}', 'WelcomeUserController@greetWithoutNickname');
+
+Route::get('/profesiones', 'ProfessionController@index')
+    ->name('professions.index');
+
+Route::delete('/profesiones/{profession}', 'ProfessionController@destroy')
+    ->name('professions.destroy');
+
+Route::get('/habilidades', 'SkillController@index')
+    ->name('skills.index');
+
+Route::delete('/habilidades/{skill}', 'SkillController@destroy')
+    ->name('skills.destroy');
 
 Route::get('/saludo/{name}/{nickname}', 'WelcomeUserController@greetWithNickname');
 

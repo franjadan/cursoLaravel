@@ -45,8 +45,14 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarCollapse">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link" href="{{ route('users.index') }}"><i class="fas fa-users"></i> Usuarios</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('professions.index') }}"><i class="fas fa-user-tie"></i> Profesiones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{{ route('skills.index') }}"><i class="fas fa-star"></i> Habilidades</a>
         </li>
       </ul>
       <!--
