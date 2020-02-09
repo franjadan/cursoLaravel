@@ -24,7 +24,7 @@
                         <form class="" action="{{ route('skills.destroy', ['skill' => $skill]) }}" method="POST"> 
                             @method('DELETE')
                             @csrf
-                            <button class="deleteBtn" type="submit"><i class="fas fa-trash-alt"></i></button> 
+                            <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> 
                         </form> 
                     </td>
                 </tr>

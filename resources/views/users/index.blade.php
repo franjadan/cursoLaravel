@@ -6,7 +6,10 @@
 
     <h1>{{ $title }}</h1>
 
-    <a href="{{ route('users.create') }}" class="btn btn-primary mt-2">Nuevo usuario</a>
+    @if ($route == 'Listado')
+        <a href="{{ route('users.create') }}" class="btn btn-primary mt-2">Nuevo usuario</a>
+        <a href="{{ route('users.trashed') }}" class="btn btn-danger mt-2">Ver papelera</a>
+    @endif
 
     @if(!$users->isEmpty())
         <table class="table table-bordered table-hover table-striped mt-3">
@@ -22,22 +25,40 @@
                 <tr>
                     <td>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif</td>
                     <td>{{ $user->email }}</td>
-                    <td class="buttons">
-                        <a class="showBtn" href="{{ route('users.show', ['user' => $user]) }}"><i class="fas fa-eye"></i></a>
-                        <a class="editBtn" href="{{ route('users.edit', ['user' => $user]) }}"><i class="fas fa-edit"></i></a>
-                        <form class="" action="{{ route('users.destroy', ['user' => $user]) }}" method="POST">
-                            {{ method_field('DELETE') }}
-                            {{ csrf_field() }}
-                            <button class="deleteBtn" type="submit"><i class="fas fa-trash-alt"></i></button>
-                        </form>
+                    <td>
+                        @if ($user->trashed())
+                            <div class="buttons">
+                                <form class="" action="{{ route('users.restore', $user) }}" method="POST">
+                                    @csrf
+                                    <button class="btn btn-success" type="submit"><i class="fas fa-trash-restore"></i></button>
+                                </form>
+                                <form class="" action="{{ route('users.destroy', $user) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-danger" type="submit"><i class="fas fa-times-circle"></i></button>
+                                </form>
+                            </div>
+                        @else
+                            <form class="" action="{{ route('users.trash', $user) }}" method="POST">
+                                @csrf
+                                @method('PATCH')
+                                <a class="btn btn-primary" href="{{ route('users.show', ['user' => $user]) }}"><i class="fas fa-eye"></i></a>
+                                <a class="btn btn-primary" href="{{ route('users.edit', ['user' => $user]) }}"><i class="fas fa-edit"></i></a>
+                                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
     @else
-        <p>No hay usuarios registrados</p>
+        <p class="mt-3">No hay usuarios</p>
     @endif
+
+    @if ($route == 'Papelera')
+            <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
+        @endif
 
 @endsection
 

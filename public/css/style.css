@@ -26,7 +26,7 @@ main > .container {
     color: black
   }
 
-  .deleteBtn, .deleteBtnDisabled {
+  .formButton, .deleteBtn, .deleteBtnDisabled {
     background: none;
     border: none;
     padding: 0;

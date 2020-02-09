@@ -27,13 +27,13 @@
                             <form class="" action="{{ route('professions.destroy', ['profession' => $profession]) }}" method="POST"> 
                                 @method('DELETE')
                                 @csrf
-                                <button class="deleteBtn" type="submit"><i class="fas fa-trash-alt"></i></button> 
+                                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button> 
                             </form>
                         @else
                             <form class="" action="{{ route('professions.destroy', ['profession' => $profession]) }}" method="POST"> 
                                 @method('DELETE')
                                 @csrf
-                                <button disabled class="deleteBtnDisabled" type="submit"><i class="fas fa-trash-alt"></i></button> 
+                                <button disabled class="btn btn-secondary" type="submit"><i class="fas fa-trash-alt"></i></button> 
                             </form>
                         @endif
                     </td>

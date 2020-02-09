@@ -19,10 +19,19 @@ class UserController extends Controller
     public function index() 
     {
         $users = User::all();
-
+        $route = "Listado";
         $title = 'Listado de usuarios';
 
-        return view('users.index', compact('users', 'title'));
+        return view('users.index', compact('users', 'route', 'title'));
+    }
+
+    public function trashed()
+    {
+        $users = User::onlyTrashed()->get();
+        $route = "Papelera";
+        $title = 'Listado de usuarios en papelera';
+
+        return view('users.index', compact('users', 'route', 'title'));
     }
 
     public function show(User $user) 
@@ -57,11 +66,26 @@ class UserController extends Controller
         return redirect()->route('users.show', ['user' => $user]);
     }
 
-    public function destroy(User $user)
+    public function trash(User $user)
     {
-
         $user->delete();
+        $user->profile()->delete();
 
         return redirect()->route('users.index');
+    }
+
+    public function restore($id)
+    {
+        User::onlyTrashed()->where('id', $id)->firstOrFail()->restore();  
+        return redirect()->route('users.index');
+    }
+
+    public function destroy($id)
+    {
+        $user = User::onlyTrashed()->where('id', $id)->firstOrFail();
+
+        $user->forceDelete();
+
+        return redirect()->route('users.trashed');
     }
 }
