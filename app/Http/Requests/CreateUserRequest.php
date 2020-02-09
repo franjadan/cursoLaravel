@@ -35,7 +35,7 @@ class CreateUserRequest extends FormRequest
             'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => ['nullable', 'present', Rule::exists('professions', 'id')],
             'role' => ['nullable', Rule::in(Role::getList())],
-            'skills' => ['array'. Rule::exists('skills', 'id')]
+            'skills' => ['array', Rule::exists('skills', 'id')]
         ];
     }
 
