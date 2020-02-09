@@ -57,16 +57,16 @@ class UpdateUserRequest extends FormRequest
 
     public function updateUser(User $user)
     {
-       $user->fill([
+       $user->forceFill([
            'name' => $this->name,
-           'email' => $this->email
+           'email' => $this->email,
+           'role' => $this->role
        ]);
 
         if($this->password != null){
             $user->password = bcrypt($this->password);
         }
 
-        $user->role = $this->role;
         $user->save();
 
         $user->profile->update([
