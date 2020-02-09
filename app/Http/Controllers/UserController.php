@@ -8,6 +8,7 @@ use App\User;
 use App\Profession;
 use App\UserProfile;
 use App\Skill;
+use App\Http\Controllers\Forms\UserForm;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\CreateUserRequest;
 
@@ -31,11 +32,7 @@ class UserController extends Controller
 
     public function create() 
     {
-        $user = new User;
-
-        return view('users.create', [
-            'user' => $user
-        ]);
+        return new UserForm('users.create', new User);
     }
 
     public function store(CreateUserRequest $request)
@@ -47,10 +44,7 @@ class UserController extends Controller
 
     public function edit(User $user) 
     {
-
-        return view('users.edit', [
-            'user' => $user,
-        ]);
+        return new UserForm('users.edit', $user);
     }
 
     public function update(User $user)
