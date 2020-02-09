@@ -6,9 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserProfile extends Model
 {
-    protected $fillable = [
-        'bio', 'twitter', 'user_id', 'profession_id'
-    ];
+    protected $guarded = [];
 
     public function profession() //profession_id
     {
