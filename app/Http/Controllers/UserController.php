@@ -12,6 +12,7 @@ use App\Role;
 use App\Http\Controllers\Forms\UserForm;
 use Illuminate\Validation\Rule;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -48,43 +49,10 @@ class UserController extends Controller
         return new UserForm('users.edit', $user);
     }
 
-    public function update(User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $data = request()->validate([
-            'name' => 'required',
-            'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($user->id)],
-            'password' => ['nullable', 'present', 'min:6'],
-            'bio' => 'required',
-            'twitter' => ['nullable', 'present', 'url'],
-            'profession_id' => ['nullable', 'present', Rule::exists('professions', 'id')],
-            'role' => ['nullable', Rule::in(Role::getList())],
-            'skills' => ['array'. Rule::exists('skills', 'id')]
-        ], [
-            'name.required' => 'El campo nombre es obligatorio',
-            'email.required' => 'El campo email es obligatorio',
-            'email.email' => 'El campo email debe ser válido',
-            'email.unique' => 'El campo email debe ser único',
-            'password.min' => 'El campo password debe tener mínimo 6 caracteres',
-            'bio.required' => 'El campo bio es obligatorio',
-            'profession_id.exists' => 'El campo profesión debe ser válido',
-            'profession_id.present' => 'El campo profesión debe estar presente',
-            'twitter.url' => 'El campo twitter debe ser una url válida',
-            'role.in' => 'El rol debe ser válido'
-        ]);
 
-        if($data['password'] != null){
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
-
-        $user->fill($data);
-        $user->role = $data['role'];
-        $user->save();
-
-        $user->profile->update($data);
-
-        $user->skills()->sync($data['skills'] ?? []);
+        $request->updateUser($user);
         
         return redirect()->route('users.show', ['user' => $user]);
     }
