@@ -2,6 +2,7 @@
     <td>{{ $user->id }}</td>
     <td>
         <h5>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif</h5>
+        <p class="text-muted">{{ $user->team->name }}</p>
         <p class="text-muted small">{{ $user->profile->profession->title }}</p>
     </td>
     <td class="text-muted">
