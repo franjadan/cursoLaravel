@@ -15,6 +15,8 @@
         <table class="table table-bordered table-hover table-striped mt-3">
             <thead>
             <tr>
+                <th scope="col">#</th>
+                <th scope="col">Fecha</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Correo</th>
                 <th></th>
@@ -23,6 +25,8 @@
             <tbody>
                 @foreach ($users as $user)
                 <tr>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->created_at }}</td>
                     <td>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif</td>
                     <td>{{ $user->email }}</td>
                     <td>
@@ -52,13 +56,16 @@
                 @endforeach
             </tbody>
         </table>
+
+        {{ $users->render() }}
+        
     @else
         <p class="mt-3">No hay usuarios</p>
     @endif
 
     @if ($route == 'Papelera')
             <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
-        @endif
+    @endif
 
 @endsection
 

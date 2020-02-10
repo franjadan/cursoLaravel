@@ -18,7 +18,7 @@ class UserController extends Controller
 {
     public function index() 
     {
-        $users = User::all();
+        $users = User::orderBy('created_at', 'DESC')->paginate(15);
         $route = "Listado";
         $title = 'Listado de usuarios';
 
