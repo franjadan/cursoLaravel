@@ -10,7 +10,6 @@ use App\UserProfile;
 use App\Skill;
 use App\Role;
 use App\Http\Controllers\Forms\UserForm;
-use Illuminate\Validation\Rule;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -18,7 +17,14 @@ class UserController extends Controller
 {
     public function index() 
     {
-        $users = User::orderBy('created_at', 'DESC')->paginate();
+        $users = User::query()
+            ->when(request('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderByDesc('created_at')
+            ->paginate();
+
         $route = "Listado";
         $title = 'Listado de usuarios';
 

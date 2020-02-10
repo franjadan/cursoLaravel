@@ -11,6 +11,8 @@
         <a href="{{ route('users.trashed') }}" class="btn btn-danger mt-2">Ver papelera</a>
     @endif
 
+    @include('users._filters')
+
     @if(!$users->isEmpty())
         <table class="table table-bordered table-hover table-striped mt-3">
             <thead>
