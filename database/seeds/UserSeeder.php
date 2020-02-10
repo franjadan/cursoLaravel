@@ -2,6 +2,7 @@
 
 use App\User;
 use App\Profession;
+use \App\Skill;
 use App\UserProfile;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,25 +17,31 @@ class UserSeeder extends Seeder
     public function run()
     {
 
-        //$profession = DB::select('SELECT id FROM professions WHERE title = ?', ['Desarrollador back-end']);
+        $professions = Profession::all();
 
-        $professionId = Profession::where('title', '=', 'Desarrollador back-end')->value('id');
+        $skills = Skill::all();
 
         $user = factory(User::class)->create([
             'name' => "Francisco Jesús",
             'email' => "francisco.adan@escuelaestech.es",
             'password' => bcrypt('laravel'),
-            'role' => 'admin'
+            'role' => 'admin',
+            'created_at' => now()->addDay()
         ]);
 
         $user->profile()->create([
             'bio' => 'Programador, profesor, editor, escritor, social media manger',
-            'profession_id' => $professionId
+            'profession_id' => $professions->firstWhere('title', 'Desarrollador back-end')->id
         ]);
 
-        factory(User::class, 999)->create()->each(function($user){   
+        factory(User::class, 999)->create()->each(function($user) use ($professions, $skills) {   
+            $randomSkills = $skills->random(rand(0, 7));
+
+            $user->skills()->attach($randomSkills);
+
             factory(App\UserProfile::class)->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
+                'profession_id' => rand(0,2) ? $professions->random()->id : null
             ]);
         });
     }

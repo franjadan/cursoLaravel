@@ -16,44 +16,14 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Fecha</th>
                 <th scope="col">Nombre</th>
                 <th scope="col">Correo</th>
-                <th></th>
+                <th scope="col">Registro</th>
+                <th scope="col">Acciones</th>
             </tr>
             </thead>
             <tbody>
-                @foreach ($users as $user)
-                <tr>
-                    <td>{{ $user->id }}</td>
-                    <td>{{ $user->created_at }}</td>
-                    <td>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif</td>
-                    <td>{{ $user->email }}</td>
-                    <td>
-                        @if ($user->trashed())
-                            <div class="buttons">
-                                <form class="" action="{{ route('users.restore', $user) }}" method="POST">
-                                    @csrf
-                                    <button class="btn btn-success" type="submit"><i class="fas fa-trash-restore"></i></button>
-                                </form>
-                                <form class="" action="{{ route('users.destroy', $user) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger" type="submit"><i class="fas fa-times-circle"></i></button>
-                                </form>
-                            </div>
-                        @else
-                            <form class="" action="{{ route('users.trash', $user) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <a class="btn btn-primary" href="{{ route('users.show', ['user' => $user]) }}"><i class="fas fa-eye"></i></a>
-                                <a class="btn btn-primary" href="{{ route('users.edit', ['user' => $user]) }}"><i class="fas fa-edit"></i></a>
-                                <button class="btn btn-danger" type="submit"><i class="fas fa-trash-alt"></i></button>
-                            </form>
-                        @endif
-                    </td>
-                </tr>
-                @endforeach
+                @each('users._row', $users, 'user')
             </tbody>
         </table>
 

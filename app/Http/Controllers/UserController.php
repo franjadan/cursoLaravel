@@ -18,7 +18,7 @@ class UserController extends Controller
 {
     public function index() 
     {
-        $users = User::orderBy('created_at', 'DESC')->paginate(15);
+        $users = User::orderBy('created_at', 'DESC')->paginate();
         $route = "Listado";
         $title = 'Listado de usuarios';
 
@@ -27,7 +27,7 @@ class UserController extends Controller
 
     public function trashed()
     {
-        $users = User::onlyTrashed()->get();
+        $users = User::onlyTrashed()->paginate();
         $route = "Papelera";
         $title = 'Listado de usuarios en papelera';
 
