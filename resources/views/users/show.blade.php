@@ -4,26 +4,39 @@
 
 
 @section('content')
-    <h1>Usuario #{{ $user->id }}</h1>
 
-    <p>Nombre del usuario: {{ $user->name }}</p>
-    <p>Correo electrónico: {{ $user->email }}</p>
+    @card
+        @slot('header', $user->name )
+
+        @slot('content')
+
+            <h5>ID del usuario: {{ $user->id }}</h5>
+            <p><b>Correo electrónico:</b> {{ $user->email }}</p>
+        
+            @if (isset($user->team_id))
+                <p><b>Equipo:</b> {{ $user->team->name }}</p>
+            @endif
+        
+            <p><b>Bio:</b> {{ $user->profile->bio }}</p>
+        
+            @if (isset($user->profile->twitter))
+                <p><b>Twitter:</b> {{ $user->profile->twitter }}</p>
+            @endif
+        
+            @if (isset($user->profile->profession_id))
+                    <p><b>Profesión:</b> {{ $user->profile->profession->title }}</p>
+            @endif
+        
+            @if(!$user->skills->isEmpty())
+                <p><b>Skills:</b> {{ $user->skills->implode('name', ', ') }}</p>
+            @endif
+        
+            <p><b>Rol:</b> {{ $user->role }}</p>
+            <p><b>Fecha de registro:</b> {{ $user->created_at }}</p>
     
-    @if (isset($user->profile))
-        @if (isset($user->profile->profession_id))
-            <p>Profesión: {{ $user->profile->profession->title }}</p>
-        @endif
-        <p>Bio: {{ $user->profile->bio }}</p>
-        @if (isset($user->profile->twitter))
-            <p>Twitter: {{ $user->profile->twitter }}</p>
-        @endif
-    @endif
-
-    <p>Es administrador?: @if ($user->is_admin) Sí @else No @endif</p>
-    @if (isset($user->profession))
-        <p>Profesión: {{ $user->profession->title }}</p>
-    @endif
-
-    <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
+        @endslot
+    @endcard
+    
+    <a class="btn btn-outline-primary mt-3" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
 
 @endsection
