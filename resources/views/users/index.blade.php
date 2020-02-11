@@ -14,6 +14,9 @@
     @include('users._filters')
 
     @if(!$users->isEmpty())
+
+        <p>Viendo página {{ $users->currentPage() }} de {{ $users->lastPage() }}</p>
+
         <table class="table table-bordered table-hover table-striped mt-3">
             <thead>
             <tr>

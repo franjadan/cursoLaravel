@@ -28,7 +28,8 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return[
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => ['required', 'email', Rule::unique('users', 'email')->ignore($this->user)],
             'password' => ['nullable', 'present', 'min:6'],
             'bio' => 'required',
@@ -42,7 +43,8 @@ class UpdateUserRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'El campo nombre es obligatorio',
+            'first_name.required' => 'El campo nombre es obligatorio',
+            'last_name.required' => 'El campo apellido es obligatorio',
             'email.required' => 'El campo email es obligatorio',
             'email.email' => 'El campo email debe ser válido',
             'email.unique' => 'El campo email debe ser único',
@@ -58,7 +60,8 @@ class UpdateUserRequest extends FormRequest
     public function updateUser(User $user)
     {
        $user->forceFill([
-           'name' => $this->name,
+           'first_name' => $this->first_name,
+           'last_name' => $this->last_name,
            'email' => $this->email,
            'role' => $this->role
        ]);
