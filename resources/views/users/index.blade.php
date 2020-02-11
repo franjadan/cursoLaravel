@@ -29,7 +29,7 @@
             </tbody>
         </table>
 
-        {{ $users->render() }}
+        {{ $users->appends(request(['team','search']))->links() }}
         
     @else
         <p class="mt-3">No hay usuarios</p>
