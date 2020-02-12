@@ -4,7 +4,7 @@
             @foreach (trans('users.filters.states') as $value => $text)
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="radio" name="state"
-                           id="state_{{ $value }}" value="{{ $value }}" {{ $value === request('state', '') ? 'checked' : '' }}>
+                           id="state_{{ $value }}" value="{{ $value }}" {{ $value === request('state', 'all') ? 'checked' : '' }}>
                     <label class="form-check-label" for="state_{{ $value }}">{{ $text }}</label>
                 </div>
             @endforeach
@@ -12,9 +12,9 @@
     </div>
     <div class="row row-filters">
         <div class="col-12">
-            @foreach(['' => 'Todos', 'with_team' => 'Con equipo', 'without_team' => 'Sin equipo'] as $value => $text)
+            @foreach(['all' => 'Todos', 'with_team' => 'Con equipo', 'without_team' => 'Sin equipo'] as $value => $text)
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="team" id="team_{{ $value ?: 'all' }}'" value="{{ $value }}" {{ $value === request('team', '') ? 'checked' :  ''}}>
+                    <input class="form-check-input" type="radio" name="team" id="team_{{ $value ?: 'all' }}'" value="{{ $value }}" {{ $value === request('team', 'all') ? 'checked' :  ''}}>
                     <label class="form-check-label" for="{{ $value ?: 'all' }}">{{ $text }}</label>
                 </div>
             @endforeach
