@@ -1,7 +1,7 @@
 <tr>
     <td>{{ $user->id }}</td>
     <td>
-        <h5>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif @if ($user->active) <span class="status st-active"></span> @else <span class="status st-inactive"></span> @endif</h5>
+        <h5>{{ $user->name }} @if ($user->isAdmin()) (Admin) @endif <span class="status st-{{ $user->state }}"></span></h5>
         <p class="text-muted">{{ $user->team->name }}</p>
         <p class="text-muted small">{{ $user->profile->profession->title }}</p>
     </td>

@@ -36,7 +36,8 @@ class CreateUserRequest extends FormRequest
             'twitter' => ['nullable', 'present', 'url'],
             'profession_id' => ['nullable', 'present', Rule::exists('professions', 'id')],
             'role' => ['nullable', Rule::in(Role::getList())],
-            'skills' => ['array', Rule::exists('skills', 'id')]
+            'skills' => ['array', Rule::exists('skills', 'id')],
+            'state' => ['required', Rule::in(['active', 'inactive'])]
         ];
     }
 
@@ -54,7 +55,9 @@ class CreateUserRequest extends FormRequest
             'profession_id.exists' => 'El campo profesión debe ser válido',
             'profession_id.present' => 'El campo profesión debe estar presente',
             'twitter.url' => 'El campo twitter debe ser una url válida',
-            'role.in' => 'El rol debe ser válido'
+            'role.in' => 'El rol debe ser válido',
+            'state.in' => 'El estado debe ser válido',
+            'state.required' => 'El estado es obligatorio'
         ];
     }
 
@@ -69,7 +72,8 @@ class CreateUserRequest extends FormRequest
                 'last_name' => $this->last_name,
                 'email' => $this->email,
                 'password' => bcrypt($this->password),
-                'role' => $this->role ?? 'user'
+                'role' => $this->role ?? 'user',
+                'state' => $this->state
             ]);
 
             $user->save();

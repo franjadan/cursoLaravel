@@ -64,3 +64,14 @@
         </div>
     @endforeach
 </div>
+
+<div class="form-group">
+    <label>Estado</label>
+    @foreach(trans('users.states') as $state => $label)
+        <div class="form-check">
+            <label class="form-check-label">
+            <input type="radio" {{ old('state', $user->state) == $state ? 'checked' : '' }} class="form-check-input" value="{{ $state }}" id="state{{ $state }}" name="state"> {{ $label }}
+            </label>
+        </div>
+    @endforeach
+</div>
