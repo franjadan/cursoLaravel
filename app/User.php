@@ -64,6 +64,12 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function scopeFilterBy($query, QueryFilter $filters, array $data)
+    {
+       return $filters->applyTo($query, $data);
+
+    }
+
     public function getNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";

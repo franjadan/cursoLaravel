@@ -15,13 +15,15 @@ use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    public function index(Request $request) 
+    public function index(Request $request, UserFilter $filters) 
     {
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
-            ->filterBy($request->only(['state', 'role', 'team', 'search']))
+            ->filterBy($filters, $request->only(['state', 'role', 'team', 'search']))
             ->orderByDesc('created_at')
             ->paginate();
+
+        $users->appends($filters->valid());
 
         $view = "index";
         $title = 'Listado de usuarios';
