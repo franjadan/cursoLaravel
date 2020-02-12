@@ -35,16 +35,9 @@ class User extends Authenticatable
         'active' => 'bool'
     ];
 
-    /*
-    public function profession() //profession_id
+    public function newEloquentBuilder($query)
     {
-        return $this->belongsTo(Profession::class);
-    }
-    */
-
-    public static function findByEmail($email)
-    {
-        return static::where('email', '=', $email)->first();
+        return new UserQuery($query);
     }
 
     public function profile()
@@ -71,46 +64,9 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
-    public function scopeSearch($query, $team, $search)
-    {
-        $query->when($team, function($query, $team) {
-            if ($team === 'with_team') {
-                $query->has('team');
-            } elseif ($team === 'without_team') {
-                $query->doesntHave('team');
-            }
-        });
-        $query->when($search, function ($query, $search) {
-            $query->where(function ($query) use ($search) {
-                //$query->where(DB::raw('CONCAT(first_name, " ", last_name)'), 'like', "%{$search}%")
-                $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhereHas('team', function($query) use ($search){
-                        $query->where('name', 'like', "%{$search}%");
-                    });
-            });
-        });
-    }
-
     public function getNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
-    }
-
-    public function scopeByState($query, $state)
-    {
-        if ($state == 'active') {
-            return $query->where('active', true);
-        } elseif ($state == 'inactive') {
-            return $query->where('active', false);
-        }
-    }
-
-    public function scopeByRole($query, $role)
-    {
-        if (in_array($role, ['user', 'admin'])) {
-            $query->where('role', $role);
-        }
     }
 
     public function setStateAttribute($value)
