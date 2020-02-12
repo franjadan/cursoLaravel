@@ -47,7 +47,8 @@ class UserSeeder extends Seeder
             'email' => "francisco.adan@escuelaestech.es",
             'password' => bcrypt('laravel'),
             'role' => 'admin',
-            'created_at' => now()->addDay()
+            'created_at' => now()->addDay(),
+            'active' => true
         ]);
 
         $randomSkills = $this->skills->random(rand(0, 7));
@@ -63,7 +64,8 @@ class UserSeeder extends Seeder
     protected function createRandomUsers() {
         foreach(range(1, 999) as $i) {
             $user =  factory(User::class)->create([
-                'team_id' => rand(0,2) ? $this->teams->random()->id : null
+                'team_id' => rand(0,2) ? $this->teams->random()->id : null,
+                'active' => rand(0, 3) ? true : false
             ]);
        
             $randomSkills = $this->skills->random(rand(0, 7));

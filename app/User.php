@@ -31,6 +31,10 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    protected $cast = [
+        'active' => 'bool'
+    ];
+
     /*
     public function profession() //profession_id
     {
@@ -91,5 +95,14 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    public function scopeByState($query, $state)
+    {
+        if ($state == 'active') {
+            return $query->where('active', true);
+        } elseif ($state == 'inactive') {
+            return $query->where('active', false);
+        }
     }
 }
