@@ -11,6 +11,7 @@
         <a href="{{ route('users.trashed') }}" class="btn btn-danger mt-2">Ver papelera</a>
     @endif
 
+    <!-- @includeWhen(isset($states), 'users._filters') -->
     @include('users._filters')
 
     @if(!$users->isEmpty())

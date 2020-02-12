@@ -26,7 +26,15 @@ class UserController extends Controller
         $route = "Listado";
         $title = 'Listado de usuarios';
 
-        return view('users.index', compact('users', 'route', 'title'));
+        return view('users.index', [
+            'users' => $users,
+            'title' => $title,
+            'route' => $route,
+            'roles' => trans('users.filters.roles'),
+            'skills' => Skill::orderBy('name')->get(),
+            'states' => trans('users.filters.states'),
+            'checkedSkills' => collect(request('skills'))
+        ]);
     }
 
     public function trashed()
