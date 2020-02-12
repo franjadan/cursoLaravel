@@ -6,13 +6,12 @@
 
     <h1>{{ $title }}</h1>
 
-    @if ($route == 'Listado')
+    @if ($view == 'index')
         <a href="{{ route('users.create') }}" class="btn btn-primary mt-2">Nuevo usuario</a>
         <a href="{{ route('users.trashed') }}" class="btn btn-danger mt-2">Ver papelera</a>
     @endif
 
-    <!-- @includeWhen(isset($states), 'users._filters') -->
-    @include('users._filters')
+    @includeWhen($view == 'index', 'users._filters')
 
     @if(!$users->isEmpty())
 
@@ -39,7 +38,7 @@
         <p class="mt-3">No hay usuarios</p>
     @endif
 
-    @if ($route == 'Papelera')
+    @if ($view == 'trashed')
             <a class="btn btn-outline-primary" href="{{ route('users.index') }}">Regresar al listado de usuarios</a>
     @endif
 

@@ -25,13 +25,13 @@ class UserController extends Controller
             ->orderByDesc('created_at')
             ->paginate();
 
-        $route = "Listado";
+        $view = "index";
         $title = 'Listado de usuarios';
 
         return view('users.index', [
             'users' => $users,
             'title' => $title,
-            'route' => $route,
+            'view' => $view,
             'skills' => Skill::orderBy('name')->get(),
             'checkedSkills' => collect(request('skills'))
         ]);
@@ -40,10 +40,10 @@ class UserController extends Controller
     public function trashed()
     {
         $users = User::onlyTrashed()->paginate();
-        $route = "Papelera";
         $title = 'Listado de usuarios en papelera';
+        $view = 'trashed';
 
-        return view('users.index', compact('users', 'route', 'title'));
+        return view('users.index', compact('users', 'view', 'title'));
     }
 
     public function show(User $user) 
