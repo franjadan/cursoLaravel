@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
-            ->filterBy($filters, $request->only(['state', 'role', 'team', 'search', 'skills']))
+            ->filterBy($filters, $request->only(['state', 'role', 'team', 'search', 'skills', 'from', 'to']))
             ->orderByDesc('created_at')
             ->paginate();
 

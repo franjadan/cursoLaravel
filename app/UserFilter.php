@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class UserFilter extends QueryFilter
 {
@@ -14,10 +15,12 @@ class UserFilter extends QueryFilter
             'state' => 'in:active,inactive',
             'role' => 'in:admin,user',
             'skills' => 'array|exists:skills,id',
+            'from' => 'date_format:d/m/Y',
+            'to' => 'date_format:d/m/Y'
         ];
     }
 
-    public function filterByTeam($query, $team)
+    public function team($query, $team)
     {
         $query->when($team, function($query, $team) {
             if ($team === 'with_team') {
@@ -29,25 +32,24 @@ class UserFilter extends QueryFilter
         });
     }
 
-    public function filterBySearch($query, $search)
+    public function search($query, $search)
     {        
-       return $query->when($search, function ($query, $search) {
-            $query->where(function ($query) use ($search) {
-                $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
-                    ->orWhere('email', 'like', "%{$search}%")
-                    ->orWhereHas('team', function($query) use ($search){
-                        $query->where('name', 'like', "%{$search}%");
-                    });
-            });
-         });
+       
+        $query->where(function ($query) use ($search) {
+            $query->whereRaw('CONCAT(first_name, " ", last_name) like ?', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhereHas('team', function($query) use ($search){
+                    $query->where('name', 'like', "%{$search}%");
+                });
+        });   
     }
 
-    public function filterByState($query, $state)
+    public function state($query, $state)
     {
          return $query->where('active', $state == 'active');
     }
 
-    public function filterBySkills($query, $skills)
+    public function skills($query, $skills)
     {
 
         $subquery = DB::table('user_skills AS s')
@@ -64,5 +66,19 @@ class UserFilter extends QueryFilter
                 ->havingRaw('COUNT(skills.id) = ?', [count($skills)]);
         });
         */
+    }
+
+    public function from($query, $date)
+    {
+        $date = Carbon::createFromFormat('d/m/Y', $date);
+
+        $query->whereDate('created_at', '>=', $date);
+    }
+
+    public function to($query, $date)
+    {
+        $date = Carbon::createFromFormat('d/m/Y', $date);
+
+        $query->whereDate('created_at', '<=', $date);
     }
 }

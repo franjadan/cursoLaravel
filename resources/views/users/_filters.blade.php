@@ -1,3 +1,5 @@
+<link href="https://fonts.googleapis.com/css?family=Lato:100" rel="stylesheet" type="text/css">
+
 <form method="get" action="{{ url('usuarios') }}" class="mt-3">
     <div class="row row-filters">
         <div class="col-12">
@@ -56,12 +58,12 @@
 
         <div class="col-md-6 text-right">
             <div class="form-inline form-dates">
-                <label for="date_start" class="form-label-sm">Fecha</label>&nbsp;
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" name="date_start" id="date_start" placeholder="Desde">
+                <label for="from" class="form-label-sm">Fecha</label>&nbsp;
+                <div class="input-group date">
+                    <input type="text" class="form-control form-control-sm datepicker" name="from" id="from" placeholder="Desde" value="{{ request('from') }}">
                 </div>
-                <div class="input-group">
-                    <input type="text" class="form-control form-control-sm" name="date_end" id="date_end" placeholder="Hasta">
+                <div class="input-group date">
+                    <input type="text" class="form-control form-control-sm datepicker" name="to" id="to" placeholder="Hasta" value="{{ request('to') }}">
                 </div>
                 &nbsp;
                 <button type="submit" class="btn btn-sm btn-primary">Filtrar</button>
@@ -69,3 +71,11 @@
         </div>
     </div>
 </form>
+
+<script>
+    $('.datepicker').datepicker({
+        format: "dd/mm/yyyy",
+        language: "es",
+        autoclose: true
+    });
+</script>
