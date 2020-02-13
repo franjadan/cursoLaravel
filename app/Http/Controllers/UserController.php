@@ -9,6 +9,7 @@ use App\Profession;
 use App\UserProfile;
 use App\Skill;
 use App\Role;
+use App\UserFilter;
 use App\Http\Controllers\Forms\UserForm;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -19,7 +20,7 @@ class UserController extends Controller
     {
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
-            ->filterBy($filters, $request->only(['state', 'role', 'team', 'search']))
+            ->filterBy($filters, $request->only(['state', 'role', 'team', 'search', 'skills']))
             ->orderByDesc('created_at')
             ->paginate();
 
