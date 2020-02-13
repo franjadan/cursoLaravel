@@ -18,12 +18,12 @@
         <p>Viendo página {{ $users->currentPage() }} de {{ $users->lastPage() }}</p>
 
         <table class="table table-bordered table-hover table-striped mt-3">
-            <thead>
+            <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Registro</th>
+                <th scope="col"><a href="#" class="{{ $sortable->classes('name') }}">Nombre <i class="icon-sort"></i></a></th>
+                <th scope="col"><a href="#" class="{{ $sortable->classes('email') }}">Correo <i class="icon-sort"></i></a></th>
+                <th scope="col"><a href="#" class="{{ $sortable->classes('created_at') }}">Registro <i class="icon-sort"></i></a></th>
                 <th scope="col">Acciones</th>
             </tr>
             </thead>

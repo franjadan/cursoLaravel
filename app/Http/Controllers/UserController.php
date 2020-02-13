@@ -9,6 +9,7 @@ use App\Profession;
 use App\UserProfile;
 use App\Skill;
 use App\Role;
+use App\Sortable;
 use App\UserFilter;
 use App\Http\Controllers\Forms\UserForm;
 use App\Http\Requests\CreateUserRequest;
@@ -16,7 +17,7 @@ use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
-    public function index(Request $request, UserFilter $filters) 
+    public function index(Request $request, UserFilter $filters, Sortable $sortable) 
     {
         $users = User::query()
             ->with('team', 'skills', 'profile.profession')
@@ -26,6 +27,8 @@ class UserController extends Controller
 
         $users->appends($filters->valid());
 
+        $sortable->setCurrentOrder(request('order'), request('direction'));
+
         $view = "index";
         $title = 'Listado de usuarios';
 
@@ -34,7 +37,8 @@ class UserController extends Controller
             'title' => $title,
             'view' => $view,
             'skills' => Skill::orderBy('name')->get(),
-            'checkedSkills' => collect(request('skills'))
+            'checkedSkills' => collect(request('skills')),
+            'sortable' => $sortable
         ]);
     }
 
