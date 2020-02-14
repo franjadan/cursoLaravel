@@ -20,17 +20,24 @@ class UserController extends Controller
     public function index(Request $request, UserFilter $filters, Sortable $sortable) 
     {
         $users = User::query()
+            ->when($request->routeIs('users.trashed'), function ($q) {
+                $q->onlyTrashed();
+            })
             ->with('team', 'skills', 'profile.profession')
             ->filterBy($filters, $request->only(['state', 'role', 'team', 'search', 'skills', 'from', 'to']))
-            ->orderByDesc('created_at')
+            ->when(request('order'), function ($q) {
+                $q->orderBy(request('order'), request('direction', 'asc'));
+            }, function ($q) {
+                $q->orderByDesc('created_at');
+            })
             ->paginate();
 
         $users->appends($filters->valid());
 
         $sortable->setCurrentOrder(request('order'), request('direction'));
 
-        $view = "index";
-        $title = 'Listado de usuarios';
+        $view = $request->routeIs('users.trashed') ? 'trashed' : 'index';
+        $title = $request->routeIs('users.trashed') ? 'Papelera de usuarios' : 'Listado de usuarios';
 
         return view('users.index', [
             'users' => $users,
@@ -40,15 +47,6 @@ class UserController extends Controller
             'checkedSkills' => collect(request('skills')),
             'sortable' => $sortable
         ]);
-    }
-
-    public function trashed()
-    {
-        $users = User::onlyTrashed()->paginate();
-        $title = 'Listado de usuarios en papelera';
-        $view = 'trashed';
-
-        return view('users.index', compact('users', 'view', 'title'));
     }
 
     public function show(User $user) 
@@ -94,7 +92,7 @@ class UserController extends Controller
     public function restore($id)
     {
         User::onlyTrashed()->where('id', $id)->firstOrFail()->restore();  
-        return redirect()->route('users.index');
+        return redirect()->route('users.trashed');
     }
 
     public function destroy($id)

@@ -32,7 +32,7 @@ Route::get('/usuarios/{user}/editar', 'UserController@edit')
 
 Route::put('/usuarios/{user}', 'UserController@update');
 
-Route::get('/usuarios/papelera', 'UserController@trashed')
+Route::get('/usuarios/papelera', 'UserController@index')
     ->name('users.trashed');
 
 Route::post('/usuarios/{id}/restaurar', 'UserController@restore')

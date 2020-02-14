@@ -1,6 +1,10 @@
 @extends('layout')
 
-@section('title', "Listado de usuarios");
+@if ($view == 'index')
+    @section('title', "Listado de usuarios");
+@else
+    @section('title', "Papelera de usuarios");
+@endif
 
 @section('content')
 
@@ -21,7 +25,7 @@
             <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col"><a href="{{ $sortable->url('name') }}" class="{{ $sortable->classes('name') }}">Nombre <i class="icon-sort"></i></a></th>
+                <th scope="col"><a href="{{ $sortable->url('first_name') }}" class="{{ $sortable->classes('first_name') }}">Nombre <i class="icon-sort"></i></a></th>
                 <th scope="col"><a href="{{ $sortable->url('email') }}" class="{{ $sortable->classes('email') }}">Correo <i class="icon-sort"></i></a></th>
                 <th scope="col"><a href="{{ $sortable->url('created_at') }}" class="{{ $sortable->classes('created_at') }}">Registro <i class="icon-sort"></i></a></th>
                 <th scope="col">Acciones</th>
