@@ -20,16 +20,12 @@ class UserController extends Controller
     public function index(Request $request, UserFilter $filters, Sortable $sortable) 
     {
         $users = User::query()
-            ->when($request->routeIs('users.trashed'), function ($q) {
-                $q->onlyTrashed();
-            })
             ->with('team', 'skills', 'profile.profession')
-            ->filterBy($filters, $request->only(['state', 'role', 'team', 'search', 'skills', 'from', 'to']))
-            ->when(request('order'), function ($q) {
-                $q->orderBy(request('order'), request('direction', 'asc'));
-            }, function ($q) {
-                $q->orderByDesc('created_at');
-            })
+            ->filterBy($filters, array_merge(
+                ['trashed' => $request->routeIs('users.trashed')],
+                $request->only(['state', 'role', 'team', 'search', 'skills', 'from', 'to', 'order', 'direction'])
+                ))
+            ->orderByDesc('created_at')
             ->paginate();
 
         $users->appends($filters->valid());
