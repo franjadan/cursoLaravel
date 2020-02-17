@@ -23,15 +23,14 @@ class UserController extends Controller
             ->with('team', 'skills', 'profile.profession')
             ->filterBy($filters, array_merge(
                 ['trashed' => $request->routeIs('users.trashed')],
-                $request->only(['state', 'role', 'team', 'search', 'skills', 'from', 'to', 'order', 'direction'])
-                ))
+                $request->only(['state', 'role', 'team', 'search', 'skills', 'from', 'to', 'order', 'direction'])))
             ->orderByDesc('created_at')
             ->paginate();
 
         $users->appends($filters->valid());
 
         $sortable->appends($filters->valid());
-        
+
         $view = $request->routeIs('users.trashed') ? 'trashed' : 'index';
         $title = $request->routeIs('users.trashed') ? 'Papelera de usuarios' : 'Listado de usuarios';
 

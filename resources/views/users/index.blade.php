@@ -27,7 +27,7 @@
                 <th scope="col">#</th>
                 <th scope="col"><a href="{{ $sortable->url('first_name') }}" class="{{ $sortable->classes('first_name') }}">Nombre <i class="icon-sort"></i></a></th>
                 <th scope="col"><a href="{{ $sortable->url('email') }}" class="{{ $sortable->classes('email') }}">Correo <i class="icon-sort"></i></a></th>
-                <th scope="col"><a href="{{ $sortable->url('created_at') }}" class="{{ $sortable->classes('created_at') }}">Registro <i class="icon-sort"></i></a></th>
+                <th scope="col"><a href="{{ $sortable->url('date') }}" class="{{ $sortable->classes('date') }}">Registrado el <i class="icon-sort"></i></a></th>
                 <th scope="col">Acciones</th>
             </tr>
             </thead>
