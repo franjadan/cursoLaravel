@@ -30,8 +30,8 @@ class UserController extends Controller
 
         $users->appends($filters->valid());
 
-        $sortable->setCurrentOrder(request('order'), request('direction'));
-
+        $sortable->appends($filters->valid());
+        
         $view = $request->routeIs('users.trashed') ? 'trashed' : 'index';
         $title = $request->routeIs('users.trashed') ? 'Papelera de usuarios' : 'Listado de usuarios';
 
