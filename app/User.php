@@ -86,4 +86,20 @@ class User extends Authenticatable
             return $this->active ? 'active' : 'inactive';
         }
     }
+
+    public function delete()
+    {
+
+        DB::transaction(function () {
+            if (parent::delete()) {
+                $this->profile()->delete();
+
+                //Eliminar con soft-delete tabla user skills
+        
+                DB::table('user_skills')
+                    ->where('user_id', $this->id)
+                    ->update(['deleted_at' => now()]);
+            }
+        });        
+    }
 }

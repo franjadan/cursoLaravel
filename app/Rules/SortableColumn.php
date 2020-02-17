@@ -4,7 +4,6 @@ namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
 use App\Sortable;
-use Illuminate\Support\Str;
 
 class SortableColumn implements Rule
 {

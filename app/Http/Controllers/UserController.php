@@ -79,7 +79,6 @@ class UserController extends Controller
     public function trash(User $user)
     {
         $user->delete();
-        $user->profile()->delete();
 
         return redirect()->route('users.index');
     }
@@ -87,7 +86,11 @@ class UserController extends Controller
     public function restore($id)
     {
         User::onlyTrashed()->where('id', $id)->firstOrFail()->restore();  
-        return redirect()->route('users.trashed');
+        DB::table('user_skills')
+                    ->where('user_id', $id)
+                    ->update(['deleted_at' => null]);
+        
+                    return redirect()->route('users.trashed');
     }
 
     public function destroy($id)

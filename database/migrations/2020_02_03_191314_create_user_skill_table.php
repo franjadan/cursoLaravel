@@ -23,6 +23,7 @@ class CreateUserSkillTable extends Migration
             $table->foreign('skill_id')->references('id')->on('skills')->onDelete('CASCADE');
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
